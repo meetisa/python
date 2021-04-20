@@ -5,7 +5,6 @@ import os
 # nascondo il messaggio di pygame
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = 'hide'
 
-# Uso il pacchetto pygame per fare mini giochi
 import pygame as pg
 import sys
 
@@ -23,16 +22,12 @@ from tkinter.filedialog import askopenfilename
 
 pg.init()
 
-actual_w = pg.display.Info().current_w
-actual_h = pg.display.Info().current_h
-
-# All'inizio chiedo all'utente due input:
-# L'immagine di sfondo
+# All'inizio chiedo all'utente l'immagine di sfondo
 while 1:
     try:
         Tk().withdraw()
         filename = askopenfilename(title='Scegli un\'immagine', filetypes=[('Images', '*.png *.jpg *.jpeg'),
-                                                                          ('All file', '*.*')])
+                                                                           ('All files', '*.*')])
         file = resize_image(Image.open(filename), 600)
         file = pg.image.frombuffer(file.tobytes(), file.size, file.mode)
         break
@@ -43,6 +38,7 @@ while 1:
         sys.exit()
 
 screen = pg.display.set_mode((600,600))
+pg.display.set_icon(pg.image.load(filename))
 
 # Per trovare il titolo della finestra tutto le cartelle,
 # Infine tolgo l'estensione del file
@@ -84,7 +80,8 @@ while not done:
             # si ha la possibilità di cominciarne una nuova,
             # premendo un qualsiasi tasto
             os_command('cancella lo schermo')
-            print('Mine rilevate: {}    |    Mine mancanti: {}'.format(0, mine))
+            mine = rn.randint(40, 80)
+            print(f'Mine rilevate: {0}    |    Mine mancanti: {mine}')
             finito = False
             c.build(screen, mine)
 
