@@ -5,3 +5,4 @@ Actually some modules aren't made by myself, here there's the list of the source
 -spritesheet.py;
 -resize.py;
 -clustering.py;
+-text.py.
