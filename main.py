@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import os
 
 # nascondo il messaggio di pygame
@@ -7,10 +9,14 @@ os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = 'hide'
 import pygame as pg
 import sys
 
+sys.path.append('include')
+
 import campo
 import text
 from funzione import os_command
 from resize import resize_image
+
+import random as rn
 from PIL import Image
 from tkinter import Tk
 from tkinter.filedialog import askopenfilename
@@ -25,13 +31,14 @@ actual_h = pg.display.Info().current_h
 while 1:
     try:
         Tk().withdraw()
-        filename = askopenfilename()
+        filename = askopenfilename(title='Scegli un\'immagine', filetypes=[('Images', '*.png *.jpg *.jpeg'),
+                                                                          ('All file', '*.*')])
         file = resize_image(Image.open(filename), 600)
         file = pg.image.frombuffer(file.tobytes(), file.size, file.mode)
         break
     except OSError:
         os_command('cancella lo schermo')
-        print('Immagine sbagliata')
+        print('Immagine non riconosiuta, riprova')
     except AttributeError:
         sys.exit()
 
@@ -51,14 +58,14 @@ pg.display.set_caption(cap[:cap.find('.')])
 perdita = text.Text('Hai perso, che peccato', size = 30)
 vittoria = text.Text('Hai vinto, complimenti!', size = 30)
 
-mine = 70
+mine = rn.randint(40, 80)
 
 c = campo.Campo(filename, file)
 
 # Costruisco il campo
 c.build(screen, mine)
 
-print('Mine rilevate: {}    |    Mine mancanti: {}'.format(0, mine))
+print(f'Mine rilevate: 0    |    Mine mancanti: {mine}')
 
 clock = pg.time.Clock()
 ci = 0
